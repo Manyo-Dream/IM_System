@@ -124,7 +124,7 @@ func (s *Server) Start() {
 			fmt.Println("listener.Accept err:", err)
 			continue
 		}
-
+		//启动一个handler
 		go s.Handler(conn)
 	}
 }
