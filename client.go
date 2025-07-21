@@ -37,6 +37,7 @@ func NewClient(serverIP string, serverPort int) *Client {
 	return client
 }
 
+// 处理服务器端返回的消息
 func (c *Client) DealResponse() {
 	//一旦client.conn有数据，就直接Copy到stdout标准输出中，永久阻塞监听
 	io.Copy(os.Stdout, c.conn)
@@ -60,6 +61,7 @@ func (c *Client) menu() bool {
 	}
 }
 
+// 更新用户名
 func (c *Client) UpdateName() bool {
 	fmt.Println(">>>> 请输入用户名:")
 	fmt.Scanln(&c.Name)
@@ -73,7 +75,8 @@ func (c *Client) UpdateName() bool {
 	return true
 }
 
-func (c *Client) SelectUsers(){
+// 搜索用户
+func (c *Client) SelectUsers() {
 	sendMsg := "who\n"
 	_, err := c.conn.Write([]byte(sendMsg))
 	if err != nil {
@@ -82,10 +85,11 @@ func (c *Client) SelectUsers(){
 	}
 }
 
+// 私聊模式
 func (c *Client) PrivateChat() {
 	var remoteName string
 	var chatMsg string
-	
+
 	c.SelectUsers()
 	fmt.Println("请选择聊天对象,exit退出.")
 	fmt.Scanln(&remoteName)
@@ -115,6 +119,7 @@ func (c *Client) PrivateChat() {
 	}
 }
 
+// 公聊模式
 func (c *Client) PublicChat() {
 	//提示用户输入信息
 	var chatMsg string
@@ -122,7 +127,7 @@ func (c *Client) PublicChat() {
 	fmt.Println(">>>> 请输入聊天内容,exit退出.")
 	fmt.Scanln(&chatMsg)
 
-	for chatMsg != "exit" { 
+	for chatMsg != "exit" {
 		//发送到服务器
 
 		if chatMsg != "" {
