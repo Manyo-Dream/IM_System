@@ -47,6 +47,7 @@ func (u *User) Offline() {
 	u.server.BroadCast(u, "已下线")
 }
 
+// 发送消息
 func (u *User) SendMsg(msg string) {
 	u.conn.Write([]byte(msg))
 }
